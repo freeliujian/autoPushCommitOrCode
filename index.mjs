@@ -8,10 +8,7 @@ async function initCommit () {
   let codeTemplate = '';
   const addReactCode = `
   import React from 'react';
-
-
   export interface IArrowLeftIconProps extends ISvgIconProps {}
-
   const ArrowLeftIcon = (props: IArrowLeftIconProps) => {
     // css-in-js created style
     const classes = useStyles();
@@ -21,7 +18,6 @@ async function initCommit () {
       <div>{children}</div>
     );
   };
-
   export default ArrowLeftIcon;
   `
   const addReduxCode = `
@@ -36,7 +32,6 @@ async function initCommit () {
         ]),
       };
     };
-
     //  thunk 的action
     const mapDispatchToProps = (dispatch: any) => ({
       ...bindActionCreators(
@@ -46,7 +41,6 @@ async function initCommit () {
         dispatch
       ),
     });
-
     export default React.memo(
       connect<
       IFilterSourceStateProps,
@@ -104,7 +98,7 @@ async function pushGit(getCommit) {
   await $`git pull origin master`;
   setTimeout(async function () {
     await $`git push origin master`;
-  }, 1000);
+  }, 1);
 };
 
 (async function (num) {
