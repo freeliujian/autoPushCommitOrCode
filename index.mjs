@@ -76,7 +76,7 @@ async function setRandomAddOrRemove() {
     newCodeLines.splice(randomLine, 1);
   }
 
-  await $`echo ${JSON.stringify(newCodeLines)} >> test.tsx`;
+  await $`echo ${newCodeLines.join()} >> test.tsx`;
 
   // // 只是一个demo，默认使用master分支
   // const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
