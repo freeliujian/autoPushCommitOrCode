@@ -107,7 +107,7 @@ async function pushGit(getCommit) {
 
 (async function (num) {
   const repeatCount = ((typeof num !== 'string' )|| (typeof num !== 'number') ) ? 1 : num;
-  await initCommit();
+  // await initCommit();
   for (let i = 0; i < repeatCount; i++){
     await setRandomAddOrRemove();
   }
