@@ -77,10 +77,10 @@ async function setRandomAddOrRemove() {
   const randomLine = parseInt(Math.random() * lines);
   const newCodeLines  = JSON.parse(JSON.stringify( codeLines));
   if (getAddOrRemove > 5) {
-    newCodeLines.splice(randomLine, 0, addCode);
+    newCodeLines.splice(1, 0, addCode);
   } else {
     // 删除行数也可以改成可以设置
-    newCodeLines.splice(randomLine, 1);
+    newCodeLines.splice(4, 1);
   }
   console.log(newCodeLines, 111);
 };
