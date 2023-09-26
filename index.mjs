@@ -2,68 +2,89 @@
 
 import { $ } from 'zx';
 
-// let codeTemplate = '';
-// const addReactCode = `
-// import React from 'react';
+const commitNum = process.argv[2];
 
 
-// export interface IArrowLeftIconProps extends ISvgIconProps {}
+async function initCommit () {
+  let codeTemplate = '';
+  const addReactCode = `
+  import React from 'react';
 
-// const ArrowLeftIcon = (props: IArrowLeftIconProps) => {
-//   // css-in-js created style
-//   const classes = useStyles();
-//   const { children } = props;
 
-//   return (
-//     <div>{children}</div>
-//   );
-// };
+  export interface IArrowLeftIconProps extends ISvgIconProps {}
 
-// export default ArrowLeftIcon;
-// `
-// const addReduxCode = `
-//   //  thunk 的state
-//   const mapStateToProps = (state: any) => {
-//     return {
-//       selectedSource: state.getIn(['NewsFilterSelectedItems', 'selectedSources']),
-//       sourceAdditionalInfo: state.getIn([
-//         'NewsFilterSelectedItems',
-//         'NewsFilterSelectedItemsInfo',
-//         'source',
-//       ]),
-//     };
-//   };
+  const ArrowLeftIcon = (props: IArrowLeftIconProps) => {
+    // css-in-js created style
+    const classes = useStyles();
+    const { children } = props;
 
-//   //  thunk 的action
-//   const mapDispatchToProps = (dispatch: any) => ({
-//     ...bindActionCreators(
-//       {
-//         updateSelectedSource,
-//       },
-//       dispatch
-//     ),
-//   });
+    return (
+      <div>{children}</div>
+    );
+  };
 
-//   export default React.memo(
-//     connect<
-//     IFilterSourceStateProps,
-//     IFilterSourceDispatchProps,
-//     IFilterSourceOwnProps
-//     >(
-//       mapStateToProps,
-//       mapDispatchToProps
-//     )(FilterSource)
-//   );
-// `;
+  export default ArrowLeftIcon;
+  `
+  const addReduxCode = `
+    //  thunk 的state
+    const mapStateToProps = (state: any) => {
+      return {
+        selectedSource: state.getIn(['NewsFilterSelectedItems', 'selectedSources']),
+        sourceAdditionalInfo: state.getIn([
+          'NewsFilterSelectedItems',
+          'NewsFilterSelectedItemsInfo',
+          'source',
+        ]),
+      };
+    };
 
-// codeTemplate = addReactCode + addReduxCode;
-// await $`echo ${codeTemplate} >> test.tsx`;
-// const checkFileContent = await $`cat ./test.tsx`;
-// const fileContent = checkFileContent.stdout
-// console.log(fileContent);
+    //  thunk 的action
+    const mapDispatchToProps = (dispatch: any) => ({
+      ...bindActionCreators(
+        {
+          updateSelectedSource,
+        },
+        dispatch
+      ),
+    });
 
-// 如果大于5就增加，小于5就删除
+    export default React.memo(
+      connect<
+      IFilterSourceStateProps,
+      IFilterSourceDispatchProps,
+      IFilterSourceOwnProps
+      >(
+        mapStateToProps,
+        mapDispatchToProps
+      )(FilterSource)
+    );
+  `;
+
+  codeTemplate = addReactCode + addReduxCode;
+  await $`echo ${codeTemplate} >> test.tsx`;
+  pushGit('add a new icon component');
+
+};
+
 const getAddOrRemove = parseInt(Math.random() * 10);
+
+async function setRandomAddOrRemove() {
+  const checkFileContent = await $`cat ./test.tsx`;
+  const addCode = ['const import = "asdasd";'];
+  const fileContent = checkFileContent.stdout;
+  const codeLines = fileContent.split('\n');
+  const lines =  codeLines.length
+  const randomLine = parseInt(Math.random() * lines);
+  const newCodeLines  = JSON.parse(JSON.stringify( codeLines));
+  if (getAddOrRemove > 5) {
+    newCodeLines.splice(randomLine, 0, addCode);
+  } else {
+    // 删除行数也可以改成可以设置
+    newCodeLines.splice(randomLine, 1);
+  }
+  console.log(newCodeLines, 111);
+};
+
 
 function getRandomCommit() {
   const getActionRandom = parseInt(Math.random() * 6);
@@ -71,14 +92,19 @@ function getRandomCommit() {
   const getThingRandom = parseInt(Math.random() * 10);
   const Thing = ['function','issues', 'data tracking'];
   return `${action[getActionRandom]} ${Thing[getThingRandom]}`
-}
+};
 
-async function pushGit() {
-  // 只是一个demo，默认使用master分支
-  const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
+// 只是一个demo，默认使用master分支
+const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
+
+async function pushGit(getCommit) {
   await $`git add .`;
   await $`git commit -m ${getCommit}`;
   await $`git pull origin master`;
   await $`git push origin master`;
 };
-pushGit();
+
+(function (num) {
+  initCommit();
+  setRandomAddOrRemove();
+})(commitNum);
