@@ -73,8 +73,8 @@ function getRandomCommit() {
   return `${action[getActionRandom]} ${Thing[getThingRandom]}`
 }
 
-// 只是一个demo，默认使用master分支
 async function pushGit() {
+  // 只是一个demo，默认使用master分支
   const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
   await $`git add .`;
   await $`git commit -m ${getCommit}`;
