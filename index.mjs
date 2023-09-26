@@ -78,9 +78,9 @@ async function setRandomAddOrRemove() {
 
   await $`echo ${newCodeLines.join()} >> test.tsx`;
 
-  // // 只是一个demo，默认使用master分支
-  // const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
-  // await pushGit(getCommit);
+  // 只是一个demo，默认使用master分支
+  const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
+  await pushGit(getCommit);
 };
 
 
