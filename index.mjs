@@ -62,7 +62,7 @@ async function initCommit () {
 
   codeTemplate = addReactCode + addReduxCode;
   await $`echo ${codeTemplate} >> test.tsx`;
-  pushGit('add a new icon component');
+  await pushGit('add a new icon component');
 
 };
 
@@ -104,7 +104,7 @@ async function pushGit(getCommit) {
   await $`git push origin master`;
 };
 
-(function (num) {
-  initCommit();
-  setRandomAddOrRemove();
+(async function (num) {
+  await initCommit();
+  await setRandomAddOrRemove();
 })(commitNum);
