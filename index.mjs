@@ -4,7 +4,6 @@ import { $ } from 'zx';
 
 const commitNum = process.argv[2];
 
-
 async function initCommit () {
   let codeTemplate = '';
   const addReactCode = `
@@ -77,12 +76,15 @@ async function setRandomAddOrRemove() {
   const randomLine = parseInt(Math.random() * lines);
   const newCodeLines  = JSON.parse(JSON.stringify( codeLines));
   if (getAddOrRemove > 5) {
-    newCodeLines.splice(1, 0, addCode);
+    newCodeLines.splice(randomLine, 0, addCode[0]);
   } else {
     // 删除行数也可以改成可以设置
-    newCodeLines.splice(4, 1);
+    newCodeLines.splice(randomLine, 1);
   }
-  console.log(newCodeLines, 111);
+
+  // 只是一个demo，默认使用master分支
+  const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
+  await pushGit(getCommit);
 };
 
 
@@ -94,8 +96,7 @@ function getRandomCommit() {
   return `${action[getActionRandom]} ${Thing[getThingRandom]}`
 };
 
-// 只是一个demo，默认使用master分支
-const getCommit = `${(getAddOrRemove>5) ? `feat: ${getRandomCommit()} `:`chore: ${getRandomCommit()}` }`
+
 
 async function pushGit(getCommit) {
   await $`git add .`;
@@ -105,6 +106,9 @@ async function pushGit(getCommit) {
 };
 
 (async function (num) {
+  const repeatCount = ((typeof num !== 'string' )|| (typeof num !== 'number') ) ? 1 : num;
   await initCommit();
-  await setRandomAddOrRemove();
+  for (let i = 0; i < repeatCount; i++){
+    await setRandomAddOrRemove();
+  }
 })(commitNum);
