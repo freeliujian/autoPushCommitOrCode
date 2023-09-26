@@ -91,7 +91,7 @@ async function setRandomAddOrRemove() {
 function getRandomCommit() {
   const getActionRandom = parseInt(Math.random() * 6);
   const action = ['added', 'removed', 'optimized', 'changed', 'merged', 'fixed'];
-  const getThingRandom = parseInt(Math.random() * 10);
+  const getThingRandom = parseInt(Math.random() * 3);
   const Thing = ['function','issues', 'data tracking'];
   return `${action[getActionRandom]} ${Thing[getThingRandom]}`
 };
