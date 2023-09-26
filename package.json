@@ -1,0 +1,16 @@
+{
+  "name": "autoPushCommitOrCode",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "submit": "node index.mjs"
+  },
+  "keywords": [],
+  "author": "jian.liu",
+  "license": "ISC",
+  "dependencies": {
+    "zx": "^7.2.3"
+  }
+}
