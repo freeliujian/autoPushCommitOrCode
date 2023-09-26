@@ -102,15 +102,15 @@ async function pushGit(getCommit) {
   await $`git add .`;
   await $`git commit -m ${getCommit}`;
   await $`git pull origin master`;
-  await $`git push origin master`;
+  setTimeout(async function () {
+    await $`git push origin master`;
+  }, 1000);
 };
 
 (async function (num) {
   const repeatCount = ((typeof num !== 'string' )|| (typeof num !== 'number') ) ? 1 : num;
   await initCommit();
   for (let i = 0; i < repeatCount; i++){
-    setTimeout(async function () {
-        await setRandomAddOrRemove();
-    }, 1);
+    await setRandomAddOrRemove();
   }
 })(commitNum);
